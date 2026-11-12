@@ -10,3 +10,6 @@ keys.properties
 docs/POWERJ_접수양식*
 __pycache__/
 .DS_Store
+# 키 파일을 묶은 압축본도 올리지 않는다
+keys.properties*
+!keys.properties.example
