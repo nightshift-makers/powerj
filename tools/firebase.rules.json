@@ -1,0 +1,23 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "trips": {
+      "$code": {
+        ".read": "$code.matches(/^[0-9]{6}$/)",
+        ".write": "$code.matches(/^[0-9]{6}$/)",
+        "plan": { ".validate": "newData.hasChildren(['stops', 'done', 'by', 'at'])" },
+        "cars": { "$car": { ".validate": "newData.hasChildren(['lat', 'lon', 'at'])" } }
+      }
+    },
+    "visits": {
+      "$area": {
+        ".read": true,
+        "$place": {
+          ".write": true,
+          ".validate": "newData.hasChildren(['n', 'lat', 'lon']) && newData.child('n').isNumber() && newData.child('n').val() === (data.exists() ? data.child('n').val() + 1 : 1)"
+        }
+      }
+    }
+  }
+}

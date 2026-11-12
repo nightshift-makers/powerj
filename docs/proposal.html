@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>POWER J 기획서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F7F9; --paper:#FFFFFF; --ink:#14181F; --sub:#5A6472; --line:#E3E7EC;
+  --accent:#2F7BEA; --accent-soft:#E8F1FD; --ok:#1E9E6A; --ok-soft:#E4F5EE;
+  --warn:#C77700; --warn-soft:#FDF2E1; --no:#C93C3C; --no-soft:#FBE9E9; --code:#F1F3F6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1116; --paper:#151A21; --ink:#E9EDF2; --sub:#98A3B3; --line:#262D37;
+    --accent:#5AA2FF; --accent-soft:#16263B; --ok:#5CCB9A; --ok-soft:#12291F;
+    --warn:#F0A94A; --warn-soft:#2D2212; --no:#F07272; --no-soft:#2E1718; --code:#1C222B;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1116; --paper:#151A21; --ink:#E9EDF2; --sub:#98A3B3; --line:#262D37;
+  --accent:#5AA2FF; --accent-soft:#16263B; --ok:#5CCB9A; --ok-soft:#12291F;
+  --warn:#F0A94A; --warn-soft:#2D2212; --no:#F07272; --no-soft:#2E1718; --code:#1C222B;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;line-height:1.7;font-size:16px}
+.wrap{max-width:920px;margin:0 auto;padding:40px 16px 80px}
+header.cover{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:40px 36px;margin-bottom:24px}
+.tag{display:inline-block;font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+h1{font-size:40px;line-height:1.2;margin:16px 0 8px;font-weight:800;letter-spacing:-.02em}
+.lead{font-size:20px;color:var(--sub);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:20px;font-size:14px;color:var(--sub)}
+nav.toc{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px 20px;margin-bottom:24px;font-size:14px}
+nav.toc a{color:var(--sub);text-decoration:none;margin-right:14px;white-space:nowrap;line-height:2}
+nav.toc a:hover{color:var(--accent)}
+section{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:32px 36px;margin-bottom:20px}
+h2{font-size:24px;margin:0 0 16px;display:flex;gap:12px;align-items:baseline;letter-spacing:-.01em}
+h2 .n{color:var(--accent);font-size:15px;font-weight:800;min-width:28px}
+h3{font-size:18px;margin:24px 0 8px}
+p{margin:0 0 12px}
+ul{margin:0 0 12px;padding-left:20px}
+li{margin:4px 0}
+.one{font-size:24px;font-weight:700;line-height:1.5;border-left:4px solid var(--accent);padding:4px 0 4px 16px;margin:4px 0}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:8px 0 12px}
+th,td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
+th{color:var(--sub);font-weight:600;font-size:13px;background:transparent}
+.tbl{overflow-x:auto}
+code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--code);padding:1px 6px;border-radius:6px}
+.pill{display:inline-block;font-size:12.5px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.ok{color:var(--ok);background:var(--ok-soft)} .warn{color:var(--warn);background:var(--warn-soft)} .no{color:var(--no);background:var(--no-soft)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:12px 0}
+.card{border:1px solid var(--line);border-radius:14px;padding:16px}
+.card b{display:block;margin-bottom:4px}
+.card small{color:var(--sub);font-size:13.5px;display:block;line-height:1.6}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.step{border:1px solid var(--line);border-radius:14px;padding:14px;position:relative}
+.step .k{font-size:12px;font-weight:800;color:var(--accent)}
+.step b{display:block;margin:2px 0 4px}
+.step small{color:var(--sub);font-size:13px;line-height:1.55;display:block}
+.quote{background:var(--accent-soft);border-radius:14px;padding:16px 18px;margin:12px 0}
+.quote b{color:var(--accent)}
+.note{font-size:13.5px;color:var(--sub)}
+.big{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 0}
+.big div{border:1px solid var(--line);border-radius:14px;padding:16px}
+.big strong{font-size:28px;display:block;line-height:1.2}
+.big span{font-size:13px;color:var(--sub)}
+.refs a{color:var(--accent)}
+.car{display:flex;justify-content:center;margin:8px 0 16px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.btn-demo,.btn-ghost{display:inline-block;padding:12px 20px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none}
+.btn-demo{background:var(--accent);color:#fff}
+.btn-ghost{border:1px solid var(--line);color:var(--ink)}
+.btn-demo:hover,.btn-ghost:hover{opacity:.85}
+section a{color:var(--accent)}
+footer{color:var(--sub);font-size:13px;text-align:center;margin-top:32px}
+@media (max-width:720px){
+  header.cover,section{padding:24px 20px}
+  h1{font-size:30px}.lead{font-size:17px}.one{font-size:19px}
+  .flow{grid-template-columns:1fr 1fr}
+}
+</style>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <span class="tag">현대자동차그룹 차량용 앱 개발 공모전 · 접수양식 02 작성안</span>
+  <h1>POWER J</h1>
+  <p class="lead">"아빠, 어디 가?" 이제 차가 대답합니다.</p>
+  <div class="meta"><span>플랫폼 · Pleos Connect (AAOS)</span><span>분야 · 계획 · 가족·동승자 · 여행 · 길 안내</span><span>작성 · 2026-11-10</span></div>
+</header>
+
+<nav class="toc">
+  <a href="#s1">1 한 줄 소개</a><a href="#s2">2 기획 배경</a><a href="#s3">3 주요 기능</a><a href="#s4">4 사용 시나리오</a><a href="#s5">5 개발 계획</a><a href="#s6">6 기대효과</a><a href="#s7">7 참고자료</a><a href="#ax">부록 · 기술 검증</a>
+</nav>
+
+<section id="s1">
+  <h2><span class="n">01</span>앱 한 줄 소개</h2>
+  <p class="one">"아빠, 어디 가?" 이제 차가 대답합니다. 오늘 일정이든 2박 3일 여행이든, 계획을 아는 차가 먼저 챙깁니다.</p>
+  <p class="note">이름은 계획형 성격 유형 "J"에서 따왔습니다. 매일 같은 사람과 가는 길은 차가 배워서 미리 준비하고, 여러 날 여행은 계획을 차에 심어 두면 날씨·차 상태까지 점검하며 계획대로 이어 갑니다. 가는 길의 즉흥적인 발견은 P처럼 차가 먼저 제안합니다.</p>
+</section>
+
+<section id="s2">
+  <h2><span class="n">02</span>기획 배경</h2>
+  <h3>계획은 운전자 머리와 휴대폰에 있고, 차는 모릅니다</h3>
+  <p>평일 아침 아이를 태우고 학교에 가는 일도, 주말 2박 3일 여행도 결국 "누구와, 어디로, 무엇을 챙겨서" 가는 계획입니다. 그런데 차는 그 계획을 모릅니다.</p>
+  <ul>
+    <li><b>매일 같은 일을 손으로 반복합니다.</b> 아이를 태우면 뒷좌석 열선을 켜고, 늘 가는 학교를 내비에 다시 찍고, 준비물은 출발한 뒤에야 떠오릅니다. 누가 탔는지는 차만 아는 정보인데 쓰이지 않습니다.</li>
+    <li><b>여행 계획은 두 번 입력합니다.</b> 여행 앱으로 일정을 짜 놓고도, 차에 타면 장소마다 내비에 다시 검색합니다. 시동을 끄면 흐름이 끊기고, 다음 날이 되면 또 처음부터 입력합니다.</li>
+    <li><b>계획을 망치는 건 늘 같은 것입니다.</b> 비, 문 닫은 가게, 휴무일, 모자란 연료입니다. 모두 출발 전에 알 수 있었던 것들입니다.</li>
+    <li><b>같이 가는 사람에 따라 계획이 달라집니다.</b> 아이와 가면 쉬어 갈 곳과 준비물이, 친구들과 두 대로 가면 서로 위치와 바뀐 일정 공유가 필요합니다. 지금은 단톡방과 전화로 맞춥니다.</li>
+  </ul>
+  <h3>왜 Pleos 앱이어야 하나</h3>
+  <p>휴대폰 앱은 시동이 언제 켜졌는지, 누가 어느 자리에 탔는지, 연료가 얼마나 남았는지, 내비가 지금 어디로 안내하는지 모릅니다. POWER J는 Vehicle SDK와 NaviHelper SDK로 이것을 알기 때문에, 사용자가 아무것도 누르지 않아도 계획의 다음 단계로 넘어갑니다.</p>
+  <h3>기존 서비스·수상작과의 차이</h3>
+  <ul>
+    <li><b>여행 계획 앱·일정 앱:</b> 일정은 잘 짜지만 휴대폰 안에서 끝나고, 차와 연결되지 않습니다.</li>
+    <li><b>운전자 프로필·순정 내비:</b> 운전석 설정과 최근 목적지는 기억하지만, 누가 함께 탔는지와 그날의 계획은 모릅니다.</li>
+    <li><b>목적지 전송 기능:</b> 폰에서 목적지 하나를 차로 보냅니다. 여러 날, 여러 장소의 흐름은 없습니다.</li>
+    <li><b>공모전 수상작:</b> 창밖동화(가족 여행 중 아이), 마! 어데고!(친구 위치 공유)는 여행의 한 장면을 다룹니다. POWER J는 매일의 반복 일정부터 여러 날 여행까지, 계획 전체를 차가 이어 갑니다.</li>
+  </ul>
+</section>
+
+<section id="s3">
+  <h2><span class="n">03</span>앱 주요 기능 및 차량 특화 요소</h2>
+  <h3>① 계획을 차에 심기</h3>
+  <div class="cards">
+    <div class="card"><b>차가 배운 계획: 자주 가는 곳 미리 띄우기</b><small>함께 탄 사람·요일·시간·출발지가 같으면 자주 간 곳을 "평소처럼 판교초등학교 가시죠?"라고 먼저 제안하고, 한 번 누르면 안내가 시작됩니다. 따로 입력하지 않아도 매일의 반복 일정이 계획이 됩니다.</small></div>
+    <div class="card"><b>여행 계획 담기</b><small>"＋ 새 여행"을 누르면 여행 이름과 1일차 카드가 열립니다. "날짜 정하기"를 누르면 주말과 공휴일(대체휴일 포함), 다른 여행이 잡힌 날(주황 줄, 고를 수 없음)이 표시된 달력이 뜨고, 가는 날과 오는 날을 누르면(순서 무관) 그 기간만큼 일차 카드가 생깁니다(달력에는 지금 일정이 회색으로 함께 보이고, 기간을 줄이거나 일차 카드의 "이 날 빼기"로 날을 빼면 그날 담은 장소가 지워진다는 확인 창이 먼저 뜹니다). 일차 카드마다 "＋ 장소 추가"를 누르면 키보드 바로 위에 검색창이 뜨고(여행 이름 등 모든 입력창이 같은 방식이며, 이름은 추천 이름을 눌러 바로 정할 수 있습니다), 글자를 칠 때마다 근처 장소가 입력창 바로 위에 떠서 골라 담습니다(주차 중), "＋ 일차 추가"로 날을 늘립니다. 담은 장소는 일차별로 번호 순서대로 보이고, ⠿ 손잡이를 끌어 순서를 바꾸거나 다른 날로 옮기고, ×로 뺄 수 있습니다. 숙박 시설은 "숙소로" 버튼이 먼저 떠서 그날의 끝점이 됩니다. 내비에서 이미 검색한 목적지도 "내비 목적지 담기"로 바로 담을 수 있습니다. 여행 계획은 여러 개를 저장해 목록으로 보고, 누르면 진행 막대와 함께 "오늘 · 1일차: ✓불국사 → ●첨성대 → ○숙소", "내일 · 2일차: …"처럼 일차별 진행이 보입니다. "이 여행으로 안내"를 누르면 그 계획으로 바로 바뀝니다. 저장해 둔 여행의 날이 오면 시동을 걸 때 그 여행으로 저절로 바뀌고("오늘은 강릉 당일치기 날이에요"), 출발일 전에는 오늘 화면에 "다가오는 여행"으로만 보이고 안내는 그날부터 시작합니다.</small></div>
+    <div class="card"><b>시동을 다시 켜면 이어서 안내</b><small>기어를 D로 넣으면 "여행 계획 2번째, 첨성대로 이어서 안내할게요"라고 말하고 경로를 잡습니다. 다음 장소 500m 안에 주차하면 도착으로 칩니다. 산이나 큰 공원처럼 주차장이 멀면 "○○에 도착하셨나요?"를 묻고 [도착했어요]/[아니요, 잠깐 들른 곳] 중 하나를 누르면 됩니다. 그래서 점심이나 주유로 잠깐 들러도 계획이 꼬이지 않습니다.</small></div>
+    <div class="card"><b>동선 자동 정렬 · 숙소를 하루의 끝점으로</b><small>일차 카드마다 "동선 정리"가 있어(그날 장소가 2곳 이상일 때), 누르면 변경 전 → 변경 후 순서와 이동 거리를 보여 주고 "바꿀까요?"를 묻습니다. 마지막 장소를 보고 출발하면 "오늘 일정 끝났어요. 숙소로 안내할게요", 다음 날 첫 승차 때는 "여행 2일차예요"로 이어 갑니다.</small></div>
+    <div class="card"><b>늦어지면 계획 조정</b><small>다음 장소 도착이 20시를 넘기거나 마감 시간에 걸리면 "도착이 20시 40분이라 늦어요. 첨성대는 내일로 미룰까요?"라고 묻고, 누르면 다음 날로 옮긴 뒤 그다음 장소로 바로 안내합니다.</small></div>
+  </div>
+  <h3>② 출발 전 점검</h3>
+  <div class="cards">
+    <div class="card"><b>일주일 날씨로 계획 다듬기</b><small>계획을 짤 때부터 일차마다 날씨를 붙입니다(3일 이내 시간별, 10일 이내 오전·오후). 비 오는 날 야외 일정이 있으면 맑은 날로 옮기거나 실내 장소를 추천하고, 그날 준비물에 우산을 넣습니다. 계획을 바꾸거나 다시 열 때 최신 예보로 다시 확인합니다.</small></div>
+    <div class="card"><b>오늘 일정 대비 차 상태</b><small>오늘 일정 총거리와 남은 주행 가능 거리를 비교해 부족하면 "중간에 충전이나 주유가 필요해요"라고 알립니다. 하루에 한 번, 그날 첫 출발 때만 말합니다. 경고등이 켜진 채 출발하면 "장거리 전에 점검을 권해요" 한 줄을 알립니다.</small></div>
+    <div class="card"><b>장소 시간 확인</b><small>도착 시간이 마감에 가깝거나 휴무일이면 출발 전에 알립니다(병원 접수 마감, 대형마트 의무휴업 등). 장소 카드에서 그곳의 실제 영업시간과 쉬는 날도 함께 보여 줍니다.</small></div>
+  </div>
+  <h3>③ 같이 가는 사람에 맞추기</h3>
+  <div class="cards">
+    <div class="card"><b>누가 탔는지 알아채기</b><small>조수석 착석 센서, 뒷문 열림 이력, 뒷좌석 벨트로 자리를 추정합니다. 처음엔 "뒷좌석에 누가 탔나요?"를 한 번 묻고, 같은 상황에서 두 번 확인되면 다음부터는 묻지 않습니다. 고르는 항목은 아이·부모님·배우자·연인·친구입니다.</small></div>
+    <div class="card"><b>사람별 실내와 안내</b><small>지난번 그 사람이 쓴 조수석 온도, 뒷좌석 열선 단계를 출발할 때 맞춥니다. 준비물과 안내도 탄 사람에 따라 바뀝니다(아이: 물·간식, 1시간 달리면 "다음 휴게소에서 잠깐 쉬어 갈까요?", 도착 전 "아이가 자고 있다면 살살 깨워 주세요").</small></div>
+    <div class="card"><b>두 대가 함께 가는 여행</b><small>4자리 공유 코드로 같은 계획을 두 차가 함께 씁니다. 한 대가 장소를 바꾸면 다른 차에 바로 반영되고, "동행 차는 3.2km 뒤"처럼 서로 위치가 보입니다.</small></div>
+  </div>
+  <h3>④ 가는 길에 챙기기</h3>
+  <div class="cards">
+    <div class="card"><b>출발 브리핑 · 도착 3분 전 안내</b><small>내비 안내가 시작되면(직접 검색 포함) 도착 시간, 통행료, 목적지와 탄 사람에 맞춘 준비물, 왕복 배터리를 말합니다. 도착 3분 전에는 그곳에 맞는 한마디를 합니다(공항: 주차 구역 사진, 병원: 신분증과 주차권).</small></div>
+    <div class="card"><b>장소 카드</b><small>식당, 박물관, 전시관의 영업시간과 전화번호를 보여 줍니다. 둘 다 있으면 둘 다, 하나만 있으면 그것만 보여 주고 없는 쪽은 "정보 없음"으로 표시합니다. 전화번호를 누르면 차 전화로 바로 연결됩니다. 주변 주차장 3곳도 공영 우선으로 "공영 · 도보 3분 · 30분 1,000원, 10분당 300원 · 054-779-6077"처럼 보여 줍니다.</small></div>
+    <div class="card"><b>담아 둔 곳 · 차들이 많이 간 곳</b><small>"가 볼 곳"에 담아 둔 곳의 5km 안을 지나면 "담아 둔 판교 카페거리가 2km 거리예요. 들를까요?"라고 묻고, 누르면 경유지로 넣습니다. 그 지역에 실제로 차를 몰고 간 횟수가 많은 곳을 "첨성대 · 128대"처럼 보여 줍니다. 리뷰가 아니라 실제 방문 기록입니다.</small></div>
+    <div class="card"><b>가는 길의 가장 싼 주유소·충전소</b><small>출발 전 점검에서 주행 가능 거리가 오늘 일정보다 모자라면 경로를 따라 찾아 줍니다. 휘발유 차는 남은 거리의 80% 안에서 가장 싼 주유소("45km 앞 ○○주유소가 리터당 1,598원으로 가장 싸요"), 전기차는 지금 비어 있는 급속 충전기를 고르고, 누르면 경유지로 추가합니다.</small></div>
+    <div class="card"><b>여행 경비 자동 기록</b><small>계획 중 이동한 통행료(내비 제공)와 충전량(배터리 잔량 변화)을 입력 없이 쌓아 "통행료 12,390원, 충전 약 21,000원"처럼 보여 줍니다.</small></div>
+  </div>
+  <h3>차량 특화 요소</h3>
+  <div class="tbl"><table>
+    <tr><th>차량 신호·기능</th><th>원래 용도</th><th>POWER J에서의 새 용도</th></tr>
+    <tr><td>기어(P·D), 시동</td><td>주행</td><td>계획의 다음 단계로 넘어가는 신호(출발 = 다음 장소 안내, 주차 = 도착 판정)</td></tr>
+    <tr><td>조수석 착석 센서, 뒷문 열림, 뒷좌석 벨트</td><td>에어백 제어, 벨트 경고, 후석 승객 알림</td><td>누가 탔는지 추정</td></tr>
+    <tr><td>조수석 온도, 뒷좌석 열선</td><td>수동 조작</td><td>사람별 자동 준비</td></tr>
+    <tr><td>내비 안내 시작, 목적지, 남은 거리, 현재 위치, 경로 요청, 경유지 추가</td><td>길 안내</td><td>계획 이어서 안내, 출발 브리핑, 주유소 경유</td></tr>
+    <tr><td>남은 주행 가능 거리, 배터리 잔량, 경고등</td><td>계기판 표시</td><td>오늘 일정 대비 차 상태 점검</td></tr>
+    <tr><td>차량 전화(블루투스)</td><td>통화</td><td>장소 카드에서 바로 전화</td></tr>
+  </table></div>
+  <p>주행 중에도 쓸 수 있도록 주행 중 사용 가능 앱(Distraction Optimized)으로 만들었습니다. 영상과 애니메이션이 없고, 안내는 음성 위주이며, 화면 조작은 한 번 누르는 것으로 끝납니다.</p>
+</section>
+
+<section id="s4">
+  <h2><span class="n">04</span>주요 사용 시나리오</h2>
+  <h3>장면 1 · 평일 아침, 아이와 학교 (차가 배운 계획)</h3>
+  <div class="flow">
+    <div class="step"><span class="k">STEP 1</span><b>뒷문이 열렸다 닫힘</b><span>뒷좌석 오른쪽에 누가 탔다고 판단합니다.</span></div>
+    <div class="step"><span class="k">STEP 2</span><b>기어 D</b><span>"아이 함께 타셨네요. 평소처럼 판교초등학교 가시죠?" 뒷좌석 열선이 지난번처럼 2단으로 켜집니다.</span></div>
+    <div class="step"><span class="k">STEP 3</span><b>한 번 누름</b><span>내비 안내가 시작되고 "판교초등학교까지 12분이에요. 아이 가방·준비물, 물·간식 챙기셨나요?"</span></div>
+    <div class="step"><span class="k">STEP 4</span><b>도착 3분 전</b><span>"곧 판교초등학교에 도착해요. 아이 가방 챙겼는지 봐 주세요." 이번 주행도 기록되어 다음 예측이 더 정확해집니다.</span></div>
+  </div>
+  <h3>장면 2 · 금~일, 우리 가족과 친구 가족이 차 두 대로 경주 여행 (차에 심은 계획)</h3>
+  <div class="flow">
+    <div class="step"><span class="k">일주일 전</span><b>계획 담기</b><span>1일차 불국사 → 첨성대 → 숙소, 2일차 석굴암 → 황리단길. 친구 차와 공유 코드로 같은 계획을 씁니다.</span></div>
+    <div class="step"><span class="k">사흘 전</span><b>날씨 점검</b><span>"토요일 오후 비 70%예요. 석굴암을 맑은 금요일로 옮길까요?" 토요일 준비물에 우산이 들어갑니다.</span></div>
+    <div class="step"><span class="k">금요일 아침</span><b>출발 전 점검</b><span>"아이 함께 타셨네요. 오늘 일정 210km, 지금 배터리로 150km 가요. 가는 길 45km 앞 충전소를 경유지로 넣을까요?"</span></div>
+    <div class="step"><span class="k">가는 길</span><b>함께 이동</b><span>"동행 차는 3.2km 뒤예요." 담아 둔 카페 근처를 지나면 "4km 거리예요, 들를까요?"</span></div>
+    <div class="step"><span class="k">불국사 앞</span><b>도착 3분 전</b><span>"곧 불국사에 도착해요. 아이가 자고 있다면 지금 살살 깨워 주세요."</span></div>
+    <div class="step"><span class="k">점심 후</span><b>시동 다시 켬</b><span>입력 없이 "여행 계획 2번째, 첨성대로 이어서 안내할게요." 점심 식당은 계획에 없던 곳이라 순서가 꼬이지 않습니다.</span></div>
+    <div class="step"><span class="k">토요일 아침</span><b>숙소에서</b><span>"여행 2일차예요. 황리단길로 안내할게요." 친구 차가 저녁 식당을 바꾸면 우리 차에도 바로 반영됩니다.</span></div>
+    <div class="step"><span class="k">돌아오는 길</span><b>경비 정리</b><span>"이번 여행 차량비는 통행료 8,400원, 충전 약 21,000원, 합계 29,400원이에요."</span></div>
+  </div>
+  <h3>그 밖의 순간</h3>
+  <div class="tbl"><table>
+    <tr><th>상황</th><th>POWER J</th></tr>
+    <tr><td>주말, 부모님을 조수석에 모시고 병원</td><td>조수석 온도를 지난번 부모님 설정으로 맞추고, "신분증, 진료 예약 시간, 부모님 복용 약 챙기셨나요?" 도착이 17시 40분이면 "보통 18시에 접수를 마감해요."</td></tr>
+    <tr><td>운전자가 내비에서 직접 "서울역" 검색</td><td>안내 시작을 감지해 "서울역까지 43분, 통행료 700원, 승차권 시간 챙기셨나요? 왕복해도 배터리 92% 남아요."</td></tr>
+    <tr><td>처음 태운 사람</td><td>"뒷좌석 오른쪽에 누가 탔나요?" 한 번 누르거나 건너뜁니다.</td></tr>
+  </table></div>
+</section>
+
+<section id="s5">
+  <h2><span class="n">05</span>개발 계획</h2>
+  <h3>SDK·API 사용 내역</h3>
+  <div class="tbl"><table>
+    <tr><th>SDK·API</th><th>사용</th><th>용도</th><th>확인</th></tr>
+    <tr><td>Vehicle 2.3.2 · Seat, Door</td><td><code>registerSeatOccupancy</code>, <code>registerSeatBeltBuckledState</code>, <code>registerDoorPosition</code>, <code>setHvacSeatTemperature</code></td><td>탑승 추정, 뒷좌석 열선</td><td><span class="pill ok">에뮬레이터</span></td></tr>
+    <tr><td>Vehicle · HVAC</td><td><code>setHvacTemperature</code> (조수석)</td><td>사람별 온도</td><td><span class="pill ok">에뮬레이터</span></td></tr>
+    <tr><td>Vehicle · EvBattery, Odometer, Fuel, Safety</td><td><code>getEvBatteryStateOfCharge</code>, <code>getEvBatteryCapacity</code>, <code>getRangeRemainingDistance</code>, <code>getFuelPercent</code>, <code>registerTelltales</code></td><td>왕복 배터리, 오늘 일정 대비 차 상태</td><td><span class="pill ok">에뮬레이터</span> 휘발유 연료량은 실차 확인 필요</td></tr>
+    <tr><td>AAOS CarPropertyManager</td><td><code>GEAR_SELECTION</code>, <code>PERF_VEHICLE_SPEED</code></td><td>출발·도착 판정</td><td><span class="pill ok">에뮬레이터</span></td></tr>
+    <tr><td>NaviHelper 3.0.5</td><td><code>onRouteStarted</code>, <code>getDestinationInfo</code>, <code>getCurrentLocationInfo</code>, <code>requestRoute</code>, <code>addWaypoint</code>, <code>cancelRoute</code></td><td>계획 담기·이어서 안내, 브리핑, 경유지</td><td><span class="pill ok">에뮬레이터</span></td></tr>
+    <tr><td>TextToSpeech 3.3.1</td><td><code>speak</code> (ON_DEVICE)</td><td>음성 안내</td><td><span class="pill ok">에뮬레이터</span></td></tr>
+    <tr><td>Pleos 전화 앱</td><td><code>Intent.ACTION_DIAL</code></td><td>장소 카드에서 전화</td><td><span class="pill ok">에뮬레이터</span> 번호가 입력된 채 열림</td></tr>
+    <tr><td>기상청 단기·중기예보 (공공데이터포털)</td><td>5km 격자 시간별(3일), 지역별 오전·오후(10일)</td><td>일주일 날씨 점검</td><td><span class="pill ok">실제 호출 확인</span></td></tr>
+    <tr><td>한국관광공사 관광정보 (공공데이터포털)</td><td>장소 분류, 이용시간, 쉬는 날, 문의 전화</td><td>장소 카드, 실내·야외 판단</td><td><span class="pill ok">실제 호출 확인</span></td></tr>
+    <tr><td>전국주차장정보표준데이터 (공공데이터포털)</td><td>공영·민영 주차장 위치, 기본·추가 요금, 하루 요금, 전화번호 (앱에 내장, 반기 갱신)</td><td>장소 카드의 주변 주차장 3곳</td><td><span class="pill ok">실제 호출 확인</span></td></tr>
+    <tr><td>오피넷 반경 내 주유소, 환경공단 충전소, 카카오모빌리티 길찾기</td><td>반경 5km 가격순 주유소, 충전소 위치, 경로 좌표</td><td>가는 길의 가장 싼 주유소·충전소</td><td><span class="pill ok">실제 호출 확인</span></td></tr>
+    <tr><td>Firebase Realtime Database (REST)</td><td>공유 코드별 계획·위치, 장소별 방문 횟수</td><td>두 대 함께 가는 여행, 차들이 많이 간 곳</td><td><span class="pill ok">실제 호출 확인</span></td></tr>
+  </table></div>
+  <h3>구조</h3>
+  <ul>
+    <li><b>판단 로직(Rules.kt):</b> 탑승 추정, 계획 진행·도착 판정, 목적지 종류·준비물, 시간 경고를 SDK와 분리한 순수 함수로 만들고 단위 테스트로 검증합니다.</li>
+    <li><b>포그라운드 서비스(JService):</b> 앱 화면이 뒤에 있어도 내비 이벤트와 기어 변화를 받습니다. 안드로이드 14는 뒤에 있는 앱을 얼려 이벤트를 놓치게 만들기 때문에, 시험에서 확인한 뒤 이 구조로 바꿨습니다.</li>
+    <li><b>서버 없이 Firebase만:</b> Pleos 차량에는 구글 플레이 서비스가 없어서(에뮬레이터 확인) Firebase 라이브러리 대신 REST로 연결합니다.</li>
+    <li><b>화면:</b> Pleos 기본 앱(전화, 차량 설정)과 같은 헤더·탭·1px 구분 타일 구성, 낮/밤 자동 전환.</li>
+    <li><b>대상 차량:</b> 내비게이션이 장착된 Pleos Connect 차량입니다. 내비 연동 SDK(NaviHelper)가 내비 장착 차량에서만 완전히 호환되기 때문입니다(Pleos API Compatibility 문서). 차량 신호는 차종마다 지원이 다를 수 있어, 지원하지 않는 신호는 건너뛰고 나머지 기능은 그대로 동작합니다.</li>
+    <li><b>개인정보:</b> 탑승자, 사람별 설정, 주행 기록은 차 안에만 저장합니다. 공유 여행 중에만 계획과 위치를 동행 차와 주고받고, 방문 기록은 경로 없이 장소별 횟수만 익명으로 집계합니다.</li>
+    <li><b>API 키:</b> 시연은 개발자 무료 키로 동작합니다(결제 수단 미연결, 심사 후 재발급). 상용화하면 운영사 서버가 키를 보관하고 앱은 그 서버만 호출하는 구조로 바꿉니다.</li>
+  </ul>
+  <h3>일정</h3>
+  <div class="tbl"><table>
+    <tr><th>기간</th><th>내용</th></tr>
+    <tr><td>~11/11</td><td>여행 계획·출발 전 점검·장소 카드·주유소 경유·두 대 공유 구현, 에뮬레이터 회귀 테스트, 접수</td></tr>
+    <tr><td>11/12~11/23</td><td>실차 확인(시동 후 앱 자동 실행, 휘발유 차 연료량, 뒷좌석 벨트 신호), Pleos 기술지원 문의</td></tr>
+    <tr><td>11/24~12/2</td><td>2차 PT 준비: 시연 영상, 화면 다듬기, 방문 기록 초기 데이터(관광공사 자료) 구축</td></tr>
+  </table></div>
+</section>
+
+<section id="s6">
+  <h2><span class="n">06</span>기대효과 및 발전 가능성</h2>
+  <h3>사용자</h3>
+  <ul>
+    <li>매일 같은 사람을 태울 때 하던 손 조작(열선, 온도, 목적지 검색)이 출발 한 번으로 끝납니다.</li>
+    <li>여행 중 내비 입력이 계획을 담을 때 한 번으로 끝납니다. 시동을 껐다 켜도, 다음 날이 되어도 다시 입력하지 않습니다.</li>
+    <li>비, 휴무일, 연료 부족처럼 계획을 망치는 일을 출발 전에 알고 계획을 바꿀 수 있습니다.</li>
+    <li>두 대로 가는 여행에서 단톡방과 전화로 하던 일정·위치 공유가 차 안에서 끝납니다.</li>
+  </ul>
+  <h3>지표 정의</h3>
+  <div class="tbl"><table>
+    <tr><th>지표</th><th>정의</th></tr>
+    <tr><td>MAU</td><td>한 달에 한 번 이상 출발 브리핑, 탑승 준비, 여행 계획 중 하나가 동작한 차량 수</td></tr>
+    <tr><td>Retention</td><td>설치 4주 뒤에도 주 1회 이상 동작하는 차량 비율</td></tr>
+    <tr><td>계획 이어서 안내 비율</td><td>여행 계획이 있는 날, 입력 없이 다음 장소 안내가 시작된 비율</td></tr>
+    <tr><td>공유 여행 비율</td><td>여행 계획 중 두 대 이상이 함께 쓴 비율</td></tr>
+  </table></div>
+  <h3>타깃과 예상 규모 (추정)</h3>
+  <div class="tbl"><table>
+    <tr><th>항목</th><th>근거</th><th>값</th></tr>
+    <tr><td>타깃</td><td>내비가 장착된 국내 Pleos 차량 운전자 중 ① 아이·부모님 등 같은 사람을 자주 태우는 운전자(매일) ② 가족·연인·친구와 차로 여행을 다니는 운전자(주말·휴가)</td><td>-</td></tr>
+    <tr><td>Pleos 탑재 차량 (2027년 말, 국내)</td><td>더 뉴 그랜저·디 올 뉴 아반떼·투싼 판매량 기반 추정</td><td>약 30만 대</td></tr>
+    <tr><td>설치율</td><td>보수 10% / 기본 20%</td><td>3만 / 6만 대</td></tr>
+    <tr><td>예상 MAU</td><td>여행이 없는 달에도 출발할 때마다 브리핑·탑승 준비가 자동 동작, 설치 차량의 80%</td><td>2.4만 / 4.8만</td></tr>
+    <tr><td>목표 Retention (4주)</td><td>평소 기능이 매일 동작하고, 여행 때 계획 기능으로 다시 돌아오는 구조</td><td>70% 이상</td></tr>
+  </table></div>
+  <h3>발전 가능성</h3>
+  <ul>
+    <li><b>숙박·관광 제휴:</b> 숙소나 입장권을 예약하면 일정이 차에 바로 담기는 연동</li>
+    <li><b>지자체 관광 코스:</b> 지역 추천 코스를 계획으로 한 번에 담기, 실제 차량 방문 통계를 지자체 관광 정책에 제공</li>
+    <li><b>휴대폰에서 계획 보내기:</b> 집에서 폰으로 짠 계획을 차로 전송</li>
+    <li><b>해외 출시:</b> Pleos Connect는 북미·유럽으로 확대해 2030년까지 2,000만 대 탑재를 목표로 합니다. 날씨·장소·주차·유가 데이터는 한 모듈(Live.kt)에 모여 있어, 현지 데이터(지도·장소 API, 현지 기상 서비스)로 바꾸면 계획·탑승자·공유 기능은 그대로 쓸 수 있습니다.</li>
+    <li><b>글레오 AI 연동:</b> "내일 경주 일정 짜 줘"로 계획 초안을 만들고 POWER J가 날씨·차 상태로 점검</li>
+  </ul>
+</section>
+
+<section id="s7">
+  <h2><span class="n">07</span>참고자료</h2>
+  <ul>
+    <li>GitHub 저장소(비공개, 심사 계정 초대): APK, 소스, 회귀 테스트 스크립트 <code>tools/regress.sh</code></li>
+    <li>시연 영상: 에뮬레이터에서 경주 2일 여행 시나리오(동행 차는 Firebase로 재현)(계획 담기 → 날씨 점검 → 출발 전 점검 → 함께 이동 → 시동 다시 켜고 이어서 안내 → 경비 정리)</li>
+  </ul>
+</section>
+
+<section id="ax">
+  <h2><span class="n">부록</span>기술 검증 결과 (Pleos Connect Emulator v2.1.0, 2026-11-09~10)</h2>
+  <p>기능은 에뮬레이터에서 실제 SDK 호출로 확인했고, 평소 주행(등교)과 2일 여행 전체 시나리오를 자동 스크립트(<code>tools/regress.sh</code>)로 5회 반복해 39개 항목 × 5회 = 195개 확인을 모두 통과했습니다(2026-11-10, 실제 API 키 사용). 판단 로직은 단위 테스트 26개로 따로 검증합니다.</p>
+  <div class="tbl"><table>
+    <tr><th>확인 항목</th><th>결과</th></tr>
+    <tr><td>뒷문 열림 → 뒷좌석 탑승 추정, 학습된 탑승자 자동 인식</td><td><span class="pill ok">통과 5/5</span></td></tr>
+    <tr><td>뒷좌석 열선 자동 적용 (콘솔 값 확인)</td><td><span class="pill ok">통과 5/5</span></td></tr>
+    <tr><td>내비 안내 시작 → 출발 브리핑(도착 시간, 준비물, 왕복 배터리)</td><td><span class="pill ok">통과 5/5</span></td></tr>
+    <tr><td>운전자가 내비 화면에서 직접 목적지 검색 → 안내 시작 감지</td><td><span class="pill ok">통과</span> 포그라운드 서비스로 구현</td></tr>
+    <tr><td>주행 중(D) 화면 표시</td><td><span class="pill ok">통과</span> 주행 중 사용 가능 앱으로 선언</td></tr>
+    <tr><td>앱에서 경로 요청, 경유지 추가</td><td><span class="pill ok">통과</span> 경유지 추가 시 도착 시간 다시 계산됨</td></tr>
+    <tr><td>전화번호 → Pleos 전화 앱 연결</td><td><span class="pill ok">통과</span> 번호가 입력된 채 열리고 운전자가 통화 버튼을 누름</td></tr>
+    <tr><td>남은 주행 가능 거리 읽기</td><td><span class="pill ok">호출 통과</span> 에뮬레이터는 0km로 고정되어 배터리 잔량 × 용량으로 계산</td></tr>
+    <tr><td>앱에서 인터넷 사용(공공 API 호출)</td><td><span class="pill ok">통과</span></td></tr>
+    <tr><td>일주일 날씨: 기상청 단기·중기예보 11일치 → 비 오는 일차 표시, "우산 챙기세요"와 실내 장소 추천</td><td><span class="pill ok">실제 호출 확인</span></td></tr>
+    <tr><td>장소 카드: 국립경주박물관 10:00~18:00 · 054-740-7500, 불국사 09:00~18:00 · 054-746-9913, 주변 공영주차장 3곳(요금·전화)</td><td><span class="pill ok">실제 호출 확인</span> 주차장 18,243곳 앱 내장</td></tr>
+    <tr><td>가는 길 충전·주유: 판교→경주 경로에서 132km 앞 빈 급속 충전기(전기차), 22km 앞 최저가 주유소(휘발유 차 경로 시험)</td><td><span class="pill ok">실제 호출 확인</span> 주유소 좌표는 카카오 지도 위치와 비교해 보정</td></tr>
+    <tr><td>두 대 함께 가기: 코드 공유 → 동행 차가 첨성대를 대릉원으로 바꾸면 10초 안에 반영·음성 안내, "동행 차는 3.2km 앞"</td><td><span class="pill ok">실제 호출 확인</span> 동행 차는 Firebase에 직접 써서 재현(Pleos 에뮬레이터 1대)</td></tr>
+    <tr><td>2일 여행 계획: 출발 전 점검(거리·주행 가능 거리·경고등) → 이어서 안내 → 늦으면 내일로 미루기 → 동선 정리 → 담아 둔 곳 경유지 추가 → 아이 휴식 제안 → 앱 재시작 후 이어서 안내 → 멀리 주차 시 도착 확인 → 숙소 도착(다음 날 장소는 묻지 않음) → 2일차 시작</td><td><span class="pill ok">통과 5/5</span></td></tr>
+  </table></div>
+  <h3>확인 결과 넣지 않은 기능</h3>
+  <div class="tbl"><table>
+    <tr><th>기능</th><th>이유</th></tr>
+    <tr><td>AI 일정 자동 생성</td><td>Pleos 온디바이스 AI가 에뮬레이터에서 비활성 → 발전 계획으로</td></tr>
+    <tr><td>휴대폰에서 계획 보내기</td><td>폰 앱과 계정 연동이 필요해 이번 범위에서 제외 → 발전 계획으로</td></tr>
+    <tr><td>가족 탑승 시 "편안한 길" 경로 자동 선택</td><td>내비가 경로 옵션 변경 요청을 반영하지 않음</td></tr>
+    <tr><td>뒷좌석 탑승 감지를 착석 센서로</td><td>현대 7개 차종 설명서 확인 결과 뒷좌석 착석 센서가 없음 → 뒷문 이력·벨트·확인 질문으로 대체</td></tr>
+  </table></div>
+  <h3>실차에서 확인할 항목</h3>
+  <ul>
+    <li>시동을 다시 켰을 때 앱 서비스가 자동으로 다시 시작되는지</li>
+    <li>휘발유 차의 연료량·남은 주행 가능 거리 값(에뮬레이터는 전기차)</li>
+    <li>뒷좌석 벨트 신호 제공 여부, 조수석 착석 값 방향(에뮬레이터는 반대로 보고되어 보정)</li>
+  </ul>
+  <h3>앱 화면</h3>
+  <div class="cards">
+    <div class="card"><b>여행 목록 · 일차별 진행</b><img src="shots/plan_list.png" alt="여행 목록과 일차별 진행 표시" style="width:100%;border-radius:8px"></div>
+    <div class="card"><b>가는 길 충전 · 장소 카드 · 주변 주차장</b><img src="shots/live_today.png" alt="충전소 제안과 장소 카드, 주변 주차장" style="width:100%;border-radius:8px"></div>
+    <div class="card"><b>일차별 날씨 · 함께 가는 차</b><img src="shots/live_plan.png" alt="날씨와 함께 가는 차가 붙은 여행 계획" style="width:100%;border-radius:8px"></div>
+    <div class="card"><b>여행 계획</b><img src="shots/plan.png" alt="일차별 여행 계획 화면" style="width:100%;border-radius:8px"></div>
+    <div class="card"><b>탑승자 확인</b><img src="shots/ask.png" alt="탑승자 확인 화면" style="width:100%;border-radius:8px"></div>
+    <div class="card"><b>출발 브리핑</b><img src="shots/briefing.png" alt="출발 브리핑 화면" style="width:100%;border-radius:8px"></div>
+    <div class="card"><b>전화 연결</b><img src="shots/dial.png" alt="Pleos 전화 앱에 번호가 입력된 화면" style="width:100%;border-radius:8px"></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">출처</span></h2>
+  <ul class="refs">
+    <li><a href="https://ownersmanual.hyundai.com/full_webhelp/GN7/2026/ko_KR/index.html">현대자동차 2026 그랜저(GN7) 취급설명서 (후석 승객 알림)</a></li>
+    <li><a href="https://ownersmanual.hyundai.com/full_webhelp/CN8/2027/ko_KR/index.html">현대자동차 2027 아반떼(CN8) 취급설명서 (뒷좌석 승객 알림은 탑승자를 감지하지 않음)</a></li>
+    <li><a href="https://www.hyundaimotorgroup.com/ko/story/hyundai-motor-company-pleos-connect-app-idea-contest">플레오스 커넥트 앱 아이디어 공모전 결과</a></li>
+    <li><a href="https://www.hyundaimotorgroup.com/ko/news/42dot-pleos-connect-app-market-new-apps">포티투닷, 플레오스 커넥트 앱 마켓 신규 앱 7종 추가</a></li>
+    <li><a href="https://zdnet.co.kr/view/?no=20260521092038">포티투닷, 글레오 AI 공개 (ZDNet Korea)</a></li>
+    <li><a href="https://document.pleos.ai/en/docs/pleos-only/vehicle-app-planning-guide/api-compatibility-availability">Pleos API Compatibility &amp; Availability</a></li>
+    <li><a href="https://document.pleos.ai/en/docs/pleos-only/vehicle-app-developer-guide/driving-restriction-development-guide">Pleos Driving Restriction Development Guide</a></li>
+    <li><a href="https://www.data.go.kr/data/15012896/standard.do">전국주차장정보표준데이터 (공공데이터포털)</a></li>
+    <li><a href="https://www.data.go.kr/data/15084084/openapi.do">기상청 단기예보 조회서비스 (공공데이터포털)</a></li>
+    <li><a href="https://www.opinet.co.kr/user/custapi/openApiInfoDtl.do?apiId=3">오피넷 반경 내 주유소 API</a></li>
+    <li><a href="https://developers.kakao.com/docs/latest/en/kakaonavi/rest-api">카카오 내비 REST API</a></li>
+  </ul>
+</section>
+
+<footer style="text-align:center;color:var(--sub);font-size:13px;margin-top:24px">POWER J · Pleos Connect 차량용 앱</footer>
+</div>
+</body>
+</html>

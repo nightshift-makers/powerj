@@ -1,0 +1,9 @@
+# Copy to keys.properties (gitignored) and fill in. Never commit the real file.
+# 공공데이터포털 일반 인증키(Decoding): 관광정보, 단기예보, 중기예보, 충전소 활용신청 후 같은 키
+data_go_kr=
+# 오피넷 무료 API 인증키
+opinet=
+# 카카오 REST API 키 (developers.kakao.com > 내 애플리케이션 > 앱 키)
+kakao=
+# Firebase Realtime Database 주소, 예: https://powerj-demo-default-rtdb.asia-southeast1.firebasedatabase.app
+firebase=
