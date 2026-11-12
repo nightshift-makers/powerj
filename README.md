@@ -55,7 +55,9 @@ done
 
 ### API 키 (선택)
 
-키가 없어도 빌드되고, 키가 필요한 기능만 꺼집니다. `keys.properties.example`을 `keys.properties`로 복사해 채웁니다(저장소에 올라가지 않음).
+기능을 모두 보려면 키가 들어 있는 `apk/POWERJ_release.apk`를 설치하면 됩니다. 소스에서 빌드할 때는 키가 없어도 debug 빌드가 되고, 키가 필요한 기능(날씨·장소·주유소·충전소·함께 가기)만 꺼집니다.
+
+모든 기능을 켜고 빌드하려면 개발자에게 `keys.properties`를 받아 이 폴더(README와 같은 위치)에 넣고 `./gradlew :app:installDebug`를 실행합니다. `keys.properties.example`을 `keys.properties`로 복사해 채웁니다(저장소에 올라가지 않음).
 
 | 키 | 쓰는 곳 |
 |---|---|
@@ -67,16 +69,27 @@ done
 
 제출 APK에는 시연용 무료 키(개발자 개인 명의, 결제 수단 미연결)가 들어 있으며 심사가 끝나면 폐기합니다.
 
-### 시연 / 회귀 테스트
+### 시연 (제출 APK)
 
-Virtual Console을 `adb forward tcp:8089 tcp:8088`로 연결한 뒤:
+차 상태(기어 P·D, 문, 좌석, 벨트)는 에뮬레이터의 Virtual Console에서 바꿉니다. 맥이나 PC 브라우저에서 열려면 포트를 연결합니다.
 
 ```bash
-tools/regress.sh 5    # 등교·루틴·2일 여행 시나리오를 5번 반복, 63개 항목 확인 (날씨·장소·충전·공유는 keys.properties 필요)
+adb forward tcp:8089 tcp:8088   # 그다음 브라우저에서 http://127.0.0.1:8089 (에뮬레이터가 여러 대면 -s emulator-5554처럼 지정)
 ```
 
-시연 기록은 화면 오른쪽 위 `···` → 시연 기록 넣기, 또는 디버그 빌드에서
-`adb shell am start-foreground-service -n com.beat.powerj/.JService --es cmd seed`.
+예시 데이터는 앱 오른쪽 위 `···` → 시연 데이터 → 넣기 → [주행 기록] / [여행 계획]으로 넣고, [기록 모두 지우기]로 지웁니다.
+
+### 회귀 테스트 (디버그 빌드)
+
+스크립트가 디버그 빌드 전용 명령을 쓰므로 `./gradlew :app:installDebug`로 설치한 앱에서 돌립니다. 위처럼 Virtual Console을 8089로 연결하고, Pleos 권한을 허용한 뒤 실행합니다. zsh, curl, python3가 필요합니다(Windows는 WSL).
+
+```bash
+tools/regress.sh 5    # 등교·루틴·2일 여행 시나리오를 5번 반복, 63개 항목 확인
+```
+
+- 기본 대상은 `emulator-5556`입니다. 에뮬레이터를 하나만 켰다면 보통 `emulator-5554`이므로 `ANDROID_SERIAL=emulator-5554 tools/regress.sh 5`로 실행합니다(`adb devices`로 확인).
+- 날씨·장소·충전·함께 가기 항목은 `keys.properties`가 있어야 통과합니다(동행 차는 `tools/companion.py`가 Firebase에 직접 써서 재현).
+- 디버그 빌드에서는 `···` 메뉴에 테스트 항목(오늘 날짜, 시동, 기어, 속도, 도착, 조수석, 뒷좌석)이 더 보이고, `adb shell am start-foreground-service -n com.beat.powerj/.JService --es cmd seed`처럼 명령으로도 시연 데이터를 넣을 수 있습니다.
 
 ## 테스트 환경
 
