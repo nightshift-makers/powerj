@@ -6,5 +6,7 @@ keys.properties
 *.jks
 .idea/
 *.iml
-form/out/
+# 접수양식(이름·연락처·서명)은 저장소에 올리지 않는다
+docs/POWERJ_접수양식*
+__pycache__/
 .DS_Store
